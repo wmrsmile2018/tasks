@@ -58,9 +58,11 @@ int isInRectangle(Point *rec, Point p) {
 int main(int argc, char **argv) {
   Point rec[4], p;
   string line, s;
+
+  if (argc != 3)
+    return 1;
   fstream recP(argv[1]);
   fstream points(argv[2]);
-
   if (recP.is_open()) {
     for (int i = 0; getline(recP, line) && i < 4; i ++) {
         s = line.c_str();
