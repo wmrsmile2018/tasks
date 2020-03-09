@@ -13,7 +13,6 @@ float isAtRight(Point p1, Point p2, Point p3) {
   a = (p1.y - p2.y);
   b = (p2.x - p1.x);
   c = (p1.x * p2.y - p2.x * p1.y);
-  // cout << a * p3.x + b * p3.y + c << endl;
   return a * p3.x + b * p3.y + c;
 }
 
@@ -29,7 +28,7 @@ float isInTriangle(Point edg1, Point edg2, Point edg3, Point p) {
   res1 = isAtRight(edg1, edg2, p);
   res2 = isAtRight(edg2, edg3, p);
   if (res1 < 0 && res2 < 0)
-    return 2; // если под углом ?????
+    return 2; // если под дугой
   if (isEdge(edg1, p) || isEdge(edg2, p) || isEdge(edg3, p))
     return 0; // если лежит на вершине
   if (res1 == 0 || res2 == 0 )
@@ -63,22 +62,23 @@ int main(int argc, char **argv) {
     return 1;
   fstream recP(argv[1]);
   fstream points(argv[2]);
-  if (recP.is_open()) {
+  if (recP.is_open()) { // чтение вершин
     for (int i = 0; getline(recP, line) && i < 4; i ++) {
         s = line.c_str();
         rec[i].x = stof(s.substr(0, s.find(" ")));
         rec[i].y = stof(s.substr(s.find(" "), strlen(s.c_str())));
     }
     recP.close();
-}
-  if (points.is_open()) {
-    while (getline(points, line)) {
-        string s = line.c_str();
-        p.x = stof(s.substr(0, s.find(" ")));
-        p.y = stof(s.substr(s.find(" "), strlen(s.c_str())));
-        cout << isInRectangle(rec, p) << endl;
+    if (points.is_open()) { // чтение точек + проверка точки
+      while (getline(points, line)) {
+          string s = line.c_str();
+          p.x = stof(s.substr(0, s.find(" ")));
+          p.y = stof(s.substr(s.find(" "), strlen(s.c_str())));
+          cout << isInRectangle(rec, p) << endl;
+      }
+      points.close();
     }
-    points.close();
-  }
+}
+
   return 0;
 }

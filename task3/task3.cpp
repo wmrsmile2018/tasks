@@ -44,8 +44,8 @@ int main(int argc, char **argv) {
     return 1;
   dir  = opendir(argv[1]);
   if(dir) {
-    file = new char[strlen("Cash0.txt")];
-    path = new char[strlen("Cash0.txt") + strlen(argv[1])];
+    file = new char[strlen("Cash0.txt") + 1];
+    path = new char[strlen("Cash0.txt") + strlen(argv[1]) + 1];
       while((ent = readdir(dir)) != NULL) {
         if (!strcmp(ent->d_name, file1) || !strcmp(ent->d_name, file2)
         || !strcmp(ent->d_name, file3) || !strcmp(ent->d_name, file3)
@@ -58,10 +58,10 @@ int main(int argc, char **argv) {
           cout << maxCongestion(path, file) << endl;
          }
       }
+      free(file);
+      free(path);
   } else {
       fprintf(stderr, "Error opening directory\n");
   }
-    free(file);
-    free(path);
     return 0;
 }

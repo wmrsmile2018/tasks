@@ -56,11 +56,12 @@ int main(int argc, char **argv) {
         seq.push_back(stof(s));
     }
     f.close();
+    cout << Percentile(seq, 0.9) << endl;
+    cout << median_v(seq);
+    cout << max_v(seq) << endl;
+    cout << min_v(seq) << endl;
+    cout << avarage_v(seq) << endl;
 }
-  cout << Percentile(seq, 0.9) << endl;
-  cout << median_v(seq);
-  cout << max_v(seq) << endl;
-  cout << min_v(seq) << endl;
-  cout << avarage_v(seq) << endl;
+
   return 0;
 }
