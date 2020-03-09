@@ -5,9 +5,8 @@
 using namespace std;
 
 bool isExistSlash(char *dir) {
-  int len;
+  int len = strlen(dir);
 
-  len = strlen(dir);
   return (dir[len - 1] == '/');
 }
 
@@ -24,19 +23,20 @@ int maxCongestion(char *dir, char **files, int count, int interval) {
     fstream f(strcat(filePath, files[i]));
     if (f.is_open()) {
       for(int t = 0; t < interval && getline(f, line); t++) {
-        s = new char (strlen(line.c_str()));
-        strcpy(s, line.c_str());
+        s = new char[line.length() + 1];
+        bzero(s, line.length() + 1);
+        line.copy(s, line.length(), 0);
         val = stof(s);
         avarageQueue[t] += val;
       }
       f.close();
     }
-  }
-  for(int t = 0; t < interval; t++) {
-    val = avarageQueue[t];
-    if (val > max) {
-      max = val;
-      pos = t + 1;
+    for(int t = 0; t < interval; t++) {
+      val = avarageQueue[t];
+      if (val > max) {
+        max = val;
+        pos = t + 1;
+      }
     }
   }
   free(filePath);
@@ -46,23 +46,23 @@ int maxCongestion(char *dir, char **files, int count, int interval) {
 
 int main (int argc, char **argv) {
   DIR *dir;
-  size_t lenLayout;
-  int input, count;
-  char *path, *files[5];
-  struct dirent *ent;
+  size_t lenLayout = strlen("Cash0.txt");
+  int input, count = 0;
+  char **files, *path = new char[lenLayout + strlen(argv[1]) + 1];
   const char *nameFiles[5] = {"Cash1.txt", "Cash2.txt", "Cash3.txt", "Cash4.txt", "Cash5.txt"};
+  struct dirent *ent;
 
   if (argc != 2)
     return 1;
   dir  = opendir(argv[1]);
   if(dir) {
-    count = 0;
-    lenLayout = strlen("Cash0.txt");
-    path = new char[lenLayout + strlen(argv[1]) + 1];
+    files = new char*[5];
     bzero(path, lenLayout + strlen(argv[1]) + 1);
     strcpy(path, argv[1]);
     if (!isExistSlash(path))
       strcat(path, "/");
+   // данный цикл необходим для поиска всех файлов типа Cash1.txt ...
+   // при этой ожидается, что в папке могут быть и другие файлы
     while((ent = readdir(dir)) != NULL) {
       if (!strcmp(ent->d_name, nameFiles[0]) || !strcmp(ent->d_name, nameFiles[1])
           || !strcmp(ent->d_name, nameFiles[2]) || !strcmp(ent->d_name, nameFiles[3])
