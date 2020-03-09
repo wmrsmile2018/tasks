@@ -6,14 +6,14 @@
 
 using namespace std;
 
-double Percentile(vector<float> seq, double excelPercentile) {
+float percentile (vector<float> seq, float percent) {
   size_t len;
-  double n, d;
+  float n, d;
   int k;
 
   sort(seq.begin(), seq.end());
   len = seq.size();
-  n = (len - 1) * excelPercentile + 1;
+  n = (len - 1) * percent + 1;
   if (n == (double)1)
     return seq[0];
   if (n == len)
@@ -23,32 +23,31 @@ double Percentile(vector<float> seq, double excelPercentile) {
   return (seq[k - 1] + d * (seq[k] - seq[k -1]));
 }
 
-double max_v (vector<float> seq) {
+double maxValue (vector<float> seq) {
   return *max_element(seq.begin(), seq.end());
 }
 
-double min_v (vector<float> seq) {
+double minValue (vector<float> seq) {
   return *min_element(seq.begin(), seq.end());
 }
 
-double avarage_v (vector<float> seq) {
+double avarageValue (vector<float> seq) {
   size_t len;
 
   len = seq.size();
   return accumulate(seq.begin(), seq.end(), 0.0) / len;
 }
 
-double median_v (vector<float> seq) {
-  return Percentile (seq, 0.5);
+float medianValue (vector<float> seq) {
+  return percentile (seq, 0.5);
 }
 
-int main(int argc, char **argv) {
+int main (int argc, char **argv) {
   string s, line;
   vector<float> seq;
 
   if (argc != 2)
     return 1;
-
   fstream f(argv[1]);
   if (f.is_open()) {
     while(getline(f, line)) {
@@ -56,12 +55,13 @@ int main(int argc, char **argv) {
         seq.push_back(stof(s));
     }
     f.close();
-    cout << Percentile(seq, 0.9) << endl;
-    cout << median_v(seq);
-    cout << max_v(seq) << endl;
-    cout << min_v(seq) << endl;
-    cout << avarage_v(seq) << endl;
-}
-
+    if(seq.size() == 0)
+      return 1;
+    printf("%.2f\n", percentile(seq, 0.9));
+    printf("%.2f\n", medianValue(seq));
+    printf("%.2f\n", maxValue(seq));
+    printf("%.2f\n", minValue(seq) );
+    printf("%.2f\n", avarageValue(seq));
+  }
   return 0;
 }

@@ -8,35 +8,33 @@ struct Point {
   float y;
 };
 
-float isAtRight(Point p1, Point p2, Point p3) {
+float isAtRight (Point p1, Point p2, Point p3) {
   float a, b, c;
-  a = (p1.y - p2.y);
-  b = (p2.x - p1.x);
-  c = (p1.x * p2.y - p2.x * p1.y);
+  a = p1.y - p2.y;
+  b = p2.x - p1.x;
+  c = p1.x * p2.y - p2.x * p1.y;
   return a * p3.x + b * p3.y + c;
 }
 
-bool isEdge(Point edge, Point p) {
-  if (edge.x == p.x && edge.y == p.y)
-    return true;
-  return false;
+bool isEqual (Point p1, Point p2) {
+  return (p1.x == p2.x && p1.y == p2.y);
 }
 
-float isInTriangle(Point edg1, Point edg2, Point edg3, Point p) {
+float isInTriangle (Point edg1, Point edg2, Point edg3, Point p) {
   float res1, res2;
 
   res1 = isAtRight(edg1, edg2, p);
   res2 = isAtRight(edg2, edg3, p);
   if (res1 < 0 && res2 < 0)
     return 2; // если под дугой
-  if (isEdge(edg1, p) || isEdge(edg2, p) || isEdge(edg3, p))
+  if (isEqual(edg1, p) || isEqual(edg2, p) || isEqual(edg3, p))
     return 0; // если лежит на вершине
   if (res1 == 0 || res2 == 0 )
     return 1; // если лежит на стороне
   return 3;
 }
 
-int isInRectangle(Point *rec, Point p) {
+int isInRectangle (Point *rec, Point p) {
   int flag1, flag2, flag3, flag4;
 
   flag1 = isInTriangle(rec[3], rec[0], rec[1], p);
@@ -54,7 +52,7 @@ int isInRectangle(Point *rec, Point p) {
 
 }
 
-int main(int argc, char **argv) {
+int main (int argc, char **argv) {
   Point rec[4], p;
   string line, s;
 
@@ -79,6 +77,5 @@ int main(int argc, char **argv) {
       points.close();
     }
 }
-
   return 0;
 }

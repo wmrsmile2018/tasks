@@ -59,7 +59,13 @@ visitor solution(vector<visitor>vV, size_t lenLayout) {
     }
   }
 
-return test;
+  for (int i =0; i < len; i++) {
+    for (int t = 0; i < vV[i].vV.size(); t++) {
+      
+    }
+  }
+
+  return test;
 }
 
 
