@@ -1,13 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-
 using namespace std;
-
-struct intensive {
-  char *max;
-  char *min;
-};
 
 struct visitor {
   char *in;
@@ -60,8 +54,8 @@ visitor solution(vector<visitor>vV, size_t lenLayout) {
   }
 
   for (int i =0; i < len; i++) {
-    for (int t = 0; i < vV[i].vV.size(); t++) {
-      
+    for (int t = 0; t < vV[i].vV.size(); t++) {
+
     }
   }
 
