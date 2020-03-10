@@ -60,7 +60,7 @@ vector<interval> solution(vector<visitor>vVisitor, vector<float> times) {
 
 int main(int argc, char **argv) {
   visitor v;
-  string line, s;
+  string line, s, inTmp, outTmp;
   char *in, *out;
   vector<visitor> vVisitor;
   vector<interval> interval;
@@ -94,7 +94,12 @@ int main(int argc, char **argv) {
     times.erase(unique(times.begin(), times.end()), times.end());
     interval = solution(vVisitor, times);
     for (int i = 0; i < interval.size(); i++) {
-      cout << interval[i].fIntervalIn << " " << interval[i].fIntervalOut << endl;
+      inTmp = to_string(interval[i].fIntervalIn);
+      outTmp = to_string(interval[i].fIntervalOut);
+      outTmp.replace(1, outTmp.find("."), ":");
+      inTmp.replace(1, inTmp.find("."), ":");
+      cout << inTmp.substr(0, inTmp.find(":")+3) << " "
+        << outTmp.substr(0, outTmp.find(":")+3) << endl;
     }
   }
   return 0;
