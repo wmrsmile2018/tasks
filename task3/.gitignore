@@ -1,4 +1,4 @@
-1.run.sh
-1a.out
-1run.sh
-1.gitignore
+.run.sh
+a.out
+run.sh
+.gitignore

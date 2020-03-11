@@ -1,6 +1,6 @@
 #include <iostream>
 #include <dirent.h>
-#include <string>
+#include <string.h>
 #include <fstream>
 using namespace std;
 
@@ -10,37 +10,40 @@ bool isExistSlash(char *dir) {
   return (dir[len - 1] == '/');
 }
 
-int maxCongestion(char *dir, char **files, int count, int interval) {
+int maxCongestion(char *dir, char **files, int count,
+  int interval, size_t lenLayout) {
   string line;
   char *s;
-  char *filePath = new char[strlen(dir) + 1];
+  char *filePath = new char[strlen(dir) + lenLayout + 1];
   float avarageQueue[16] = {0};
   float val, pos, max = -1;
 
   for(int i = 0; i < count; i++) {
-    bzero(filePath, strlen(dir) + 1);
+    // bzero(filePath, strlen(dir) + lenLayout + 1);
+    memset(filePath, 0, strlen(dir) + lenLayout + 1);
     strcpy(filePath, dir);
     fstream f(strcat(filePath, files[i]));
     if (f.is_open()) {
       for(int t = 0; t < interval && getline(f, line); t++) {
         s = new char[line.length() + 1];
-        bzero(s, line.length() + 1);
+        // bzero(s, line.length() + 1);
+        memset(s, 0, line.length() + 1);
         line.copy(s, line.length(), 0);
         val = stof(s);
         avarageQueue[t] += val;
+        free(s);
       }
       f.close();
-    }
-    for(int t = 0; t < interval; t++) {
-      val = avarageQueue[t];
-      if (val > max) {
-        max = val;
-        pos = t + 1;
+      for(int t = 0; t < interval; t++) {
+        val = avarageQueue[t];
+        if (val > max) {
+          max = val;
+          pos = t + 1;
+        }
       }
     }
   }
   free(filePath);
-  free(s);
   return pos;
 }
 
@@ -57,7 +60,8 @@ int main (int argc, char **argv) {
   dir  = opendir(argv[1]);
   if(dir) {
     files = new char*[5];
-    bzero(path, lenLayout + strlen(argv[1]) + 1);
+    // bzero(path, lenLayout + strlen(argv[1]) + 1);
+    memset(path, 0, lenLayout + strlen(argv[1]) + 1);
     strcpy(path, argv[1]);
     if (!isExistSlash(path))
       strcat(path, "/");
@@ -68,15 +72,16 @@ int main (int argc, char **argv) {
           || !strcmp(ent->d_name, nameFiles[2]) || !strcmp(ent->d_name, nameFiles[3])
           || !strcmp(ent->d_name, nameFiles[4])) {
             input = strcmp(ent->d_name, "Cash0.txt");
-            files[input - 1] = new char [lenLayout];
-            bzero(files[input - 1], lenLayout);
+            files[input - 1] = new char [lenLayout + 1];
+            // bzero(files[input - 1], lenLayout + 1);
+            memset(files[input - 1], 0, lenLayout + 1);
             strcpy(files[input - 1], ent->d_name);
             count++;
           }
         }
-      if (count)
-        cout << maxCongestion(path, files, count, 16) << endl;
-      free(path);
+    if (count)
+        cout << maxCongestion(path, files, count, 16, lenLayout) << endl;
+    free(path);
   } else {
       fprintf(stderr, "Error opening directory\n");
   }

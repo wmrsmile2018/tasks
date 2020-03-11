@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 struct interval {
@@ -76,8 +77,10 @@ int main(int argc, char **argv) {
   if (f.is_open()) {
   while(getline(f, line)) {
         s = line.c_str();
-        bzero(in, lenLayout + 1);
-        bzero(out, lenLayout + 1);
+        // bzero(in, lenLayout + 1);
+        // bzero(out, lenLayout + 1);
+        memset(in, 0, lenLayout + 1);
+        memset(out,0, lenLayout + 1);
         strcpy(in, s.substr(0, s.find(" ")).c_str());
         strcpy(out, s.substr(s.find(" ") + 1, strlen(s.c_str())).c_str());
         in[strchr(in, ':') - in] = '.';
@@ -91,6 +94,7 @@ int main(int argc, char **argv) {
     }
     f.close();
     sort(times.begin(), times.end());
+    // times.erase(unique(times.begin(), times.end()), times.end());
     times.erase(unique(times.begin(), times.end()), times.end());
     interval = solution(vVisitor, times);
     for (int i = 0; i < interval.size(); i++) {

@@ -1,4 +1,4 @@
 #!/bin/bash
-g++ task1.cpp -o task1.out
-./task1.out seq
-rm task1.out
+g++ task1.cpp -o task1.exe
+# ./task1.exe seq
+# rm task1.exe
