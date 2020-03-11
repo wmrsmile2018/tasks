@@ -7,12 +7,11 @@
 using namespace std;
 
 float percentile (vector<float> seq, float percent) {
-  size_t len;
-  float n, d;
   int k;
+  float n, d;
+  size_t len = seq.size();
 
   sort(seq.begin(), seq.end());
-  len = seq.size();
   n = (len - 1) * percent + 1;
   if (n == (double)1)
     return seq[0];
